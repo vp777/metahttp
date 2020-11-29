@@ -24,7 +24,7 @@ The script receives the request and responds with the following DTD:
 ```
 
 After receiving the DTD, the XML parser will attempt to substitute the `trigger` parameter entity with its value.
-The `trigger` parameter entity includes both `test_target` and `callback`. Now here we depend on the fact that XML parsers will normally process the parameter entities one by one. In case the substitution of an entity fails, they will not proceed with the substitution of the subsequent entities. So now, if we receive a callback to our server, it means that the `callback` parameter entity was attempted to be substituted which with its turn means that the resource pointed by the `test_target` exists.
+The `trigger` parameter entity includes both `test_target` and `callback`. Now here we depend on the fact that XML parsers will normally process the parameter entities one by one. In case the substitution of an entity fails, they will not proceed with the substitution of the subsequent entities. So now, if we receive a callback to our server, it means that the substitution of the `callback` parameter entity was initiated which with its turn means that the resource pointed by the `test_target` exists.
 
 The above procedure is repeated for all the provided hosts/ports. Since there might be a big number of hosts/ports combinations, the step where the attacker has to trigger the XXE on the target server is automated  through the use of the "dispatcher". The dispatcher is an executable passed to metahttp through the -x option and is responsible for triggering the XXE on the target server. Couple of examples are provided in the dispatcher_examples folder.
 
